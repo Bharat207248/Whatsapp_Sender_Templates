@@ -30,14 +30,15 @@ load_dotenv(
 SECRET_KEY = 'django-insecure-0ck+x3+mix!mx*%+d2pzx!bz!vh&-w-p1ww#+^l$1lxp-26!!+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "cycle-unsent-dollhouse.ngrok-free.dev",
-    ".ngrok-free.dev",
-    ".ngrok-free.app",
-]
+DEBUG = False
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = [
+#     "127.0.0.1",
+#     "localhost",
+#     "cycle-unsent-dollhouse.ngrok-free.dev",
+#     ".ngrok-free.dev",
+#     ".ngrok-free.app",
+# ]
 
 # Application definition
 
@@ -53,10 +54,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-
+    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.LoginRequiredMiddleware',
 
