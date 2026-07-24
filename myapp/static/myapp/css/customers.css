@@ -1,0 +1,1431 @@
+/* =========================================
+   GLOBAL CSS
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f2f6f4;
+    color: #1f2937;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    background: #075e54;
+    color: #ffffff;
+    padding: 17px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.16);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.brand h1 {
+    margin-bottom: 3px;
+    font-size: 21px;
+}
+
+.brand p {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+    width: 94%;
+    max-width: 1250px;
+    margin: 30px auto;
+}
+
+.page-heading {
+    margin-bottom: 23px;
+}
+
+.page-heading h2 {
+    margin-bottom: 7px;
+    color: #075e54;
+    font-size: 27px;
+}
+
+.page-heading p {
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.panel {
+    min-width: 0;
+    padding: 22px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+}
+
+.panel-title {
+    margin-bottom: 18px;
+    color: #075e54;
+    font-size: 20px;
+}
+
+
+/* =========================================
+   CUSTOMER CONTACT DROPDOWN
+========================================= */
+
+.customer-panel {
+    min-width: 0;
+}
+
+.contacts-box {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d9e3df;
+    border-radius: 12px;
+    overflow: visible;
+}
+
+.contacts-summary,
+.contacts-box > summary {
+    list-style: none;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7fbf9;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.contacts-box[open] .contacts-summary,
+.contacts-box[open] > summary {
+    border-radius: 12px 12px 0 0;
+}
+
+.contacts-summary::-webkit-details-marker,
+.contacts-box > summary::-webkit-details-marker {
+    display: none;
+}
+
+.contacts-summary:hover,
+.contacts-box > summary:hover {
+    background: #edf9f2;
+}
+
+.contact-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+  .contact-label {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+.contact-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #dcf8c6;
+    color: #075e54;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.contact-summary-left h3 {
+    margin-bottom: 4px;
+    color: #1f2937;
+    font-size: 16px;
+}
+
+.contact-summary-left p {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.arrow {
+    color: #075e54;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.contacts-box[open] .arrow {
+    transform: rotate(180deg);
+}
+
+.contacts-content {
+    padding: 18px;
+    border-top: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   CUSTOMER SEARCH TOOLBAR
+========================================= */
+
+.contacts-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 220px;
+    height: 44px;
+    padding: 0 14px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-input:focus {
+    border-color: #25d366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.12);
+}
+
+
+/* =========================================
+   SELECT CONTACTS DROPDOWN
+========================================= */
+
+.select-contact-menu {
+    position: relative;
+    min-width: 185px;
+}
+
+.select-contact-menu summary {
+    list-style: none;
+}
+
+.select-contact-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.select-contact-button {
+    
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: #ffffff;
+    color: #075e54;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.select-contact-button:hover {
+    background: #f0fff6;
+    border-color: #25d366;
+}
+
+.select-arrow {
+    font-size: 18px;
+    transition: transform 0.25s ease;
+}
+
+.select-contact-menu[open] .select-arrow {
+    transform: rotate(180deg);
+}
+
+.select-contact-options {
+    position: absolute;
+    top: 51px;
+    right: 0;
+    z-index: 50;
+    width: 210px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid #dce5e1;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.14);
+}
+
+.select-option {
+    
+    width: 100%;
+    padding: 11px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #374151;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.select-option:hover {
+    background: #edf9f2;
+    color: #075e54;
+}
+
+.select-option input {
+    
+    width: 17px;
+    height: 17px;
+    accent-color: #25d366;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   CUSTOMER DETAILS TABLE
+========================================= */
+
+.customer-table-wrapper {
+    width: 100%;
+    max-height: 430px;
+    overflow: auto;
+    background: #ffffff;
+    border: 1px solid #dfe7e3;
+    border-radius: 11px;
+}
+
+.customer-table {
+    width: 100%;
+    min-width: 500px;
+    border-collapse: collapse;
+}
+
+.customer-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.customer-table th {
+    padding: 14px 15px;
+    background: #075e54;
+    color: #ffffff;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.customer-table td {
+    padding: 14px 15px;
+    color: #374151;
+    border-bottom: 1px solid #e9eeec;
+    font-size: 14px;
+    white-space: nowrap;
+    
+}
+
+
+.customer-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.customer-table tbody tr:nth-child(even) {
+    background: #f8fbf9;
+}
+
+.customer-table tbody tr:hover {
+    background: #edfff4;
+}
+
+.customer-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.checkbox-column {
+    width: 75px;
+    text-align: center !important;
+}
+
+.customer-table input[type="checkbox"] {
+    
+    width: 18px;
+    height: 18px;
+    accent-color: #25d366;
+    cursor: pointer;
+}
+
+.mobile-number {
+    color: #075e54 !important;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+.mobile-number label {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    color: #075e54;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+
+
+/* =========================================
+   SELECTED CUSTOMER SUMMARY
+========================================= */
+
+.selected-summary {
+    margin-top: 17px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #effcf4;
+    border: 1px solid #bceacc;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.selected-summary span {
+    color: #4b5563;
+}
+
+.selected-summary strong {
+    color: #087a38;
+    font-size: 17px;
+}
+
+
+/* =========================================
+   TEMPLATE FORM
+========================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #25d366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+
+.template-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.info-box {
+    padding: 11px;
+    background: #f8faf9;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+}
+
+.info-box span {
+    display: block;
+    margin-bottom: 4px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.info-box strong {
+    color: #075e54;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   WHATSAPP TEMPLATE PREVIEW
+========================================= */
+
+.preview-heading {
+    margin-bottom: 9px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.whatsapp-preview {
+    padding: 18px;
+    margin-bottom: 20px;
+    background: #e5ddd5;
+    border-radius: 12px;
+}
+
+.message-bubble {
+    width: 94%;
+    padding: 13px;
+    margin-left: auto;
+    background: #dcf8c6;
+    border-radius: 9px 9px 2px 9px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.12);
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 115px;
+    margin-bottom: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #bdcbc5;
+    color: #52605b;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+.message-bubble h4 {
+    margin-bottom: 8px;
+    color: #1f2937;
+}
+
+.message-bubble p {
+    color: #374151;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.message-time {
+    margin-top: 7px;
+    color: #6b7280;
+    text-align: right;
+    font-size: 10px;
+}
+
+.template-buttons {
+    margin-top: 9px;
+    display: grid;
+    gap: 7px;
+}
+
+.template-button {
+    padding: 9px;
+    background: #ffffff;
+    color: #128c7e;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+/* =========================================
+   SEND BUTTON
+========================================= */
+
+.send-button {
+    width: 100%;
+    height: 49px;
+    background: #25d366;
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.22s ease;
+}
+
+.send-button:hover {
+    background: #1fbe5a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.24);
+}
+
+.note {
+    margin-top: 12px;
+    color: #6b7280;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   TABLE SCROLLBAR
+========================================= */
+
+.customer-table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.customer-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f4f2;
+    border-radius: 10px;
+}
+
+.customer-table-wrapper::-webkit-scrollbar-thumb {
+    background: #aebdb7;
+    border-radius: 10px;
+}
+
+.customer-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #84968f;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 900px) {
+
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .contacts-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .select-contact-menu {
+        width: 100%;
+    }
+
+    .select-contact-button {
+        width: 100%;
+    }
+
+    .select-contact-options {
+        left: 0;
+        right: auto;
+        width: 100%;
+    }
+
+    .contacts-content {
+        padding: 13px;
+    }
+
+    .customer-table-wrapper {
+        max-height: 380px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 14px 18px;
+    }
+
+    .brand h1 {
+        font-size: 17px;
+    }
+
+    .container {
+        width: 92%;
+        margin-top: 20px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .template-info {
+        grid-template-columns: 1fr;
+    }
+
+}
+.template-error {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: #fff1f2;
+    color: #b42318;
+    border: 1px solid #fecdd3;
+    border-radius: 7px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   DYNAMIC TEMPLATE PREVIEW
+========================================= */
+
+.empty-template-preview {
+    padding: 35px 20px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #6b7280;
+    border: 1px dashed #aebdb7;
+    border-radius: 9px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.selected-template-preview {
+    width: 100%;
+}
+
+.preview-template-meta {
+    margin-bottom: 9px;
+    padding: 8px 11px;
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 7px;
+    font-size: 12px;
+}
+
+.preview-template-meta span {
+    color: #075e54;
+    font-weight: bold;
+}
+
+.template-header-image {
+    width: 100%;
+    max-height: 210px;
+    margin-bottom: 11px;
+    display: block;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.message-bubble p {
+    white-space: pre-line;
+}
+
+.template-footer-text {
+    margin-top: 10px;
+    padding-top: 8px;
+    color: #667085 !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 11px !important;
+}
+
+.template-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.template-button-text {
+    font-weight: bold;
+}
+
+.template-button-type {
+    color: #6b7280;
+    font-size: 9px;
+    font-weight: normal;
+}
+
+.whatsapp-preview [hidden] {
+    display: none !important;
+}
+
+
+/* =========================================
+   DJANGO SUCCESS / ERROR MESSAGES
+========================================= */
+
+.django-messages {
+    width: 100%;
+    margin-bottom: 20px;
+    display: grid;
+    gap: 10px;
+}
+
+.django-message {
+    padding: 13px 15px;
+    border-radius: 9px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.django-message.success {
+    background: #ecfdf3;
+    color: #087a38;
+    border: 1px solid #a7e7be;
+}
+
+.django-message.error {
+    background: #fff1f2;
+    color: #b42318;
+    border: 1px solid #fecdd3;
+}
+
+.django-message.warning {
+    background: #fff8e6;
+    color: #8a5b00;
+    border: 1px solid #f4d58d;
+}
+
+.django-message.info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+
+/* =========================================
+   EMPTY CUSTOMER TABLE MESSAGE
+========================================= */
+
+.no-customer-message {
+    padding: 25px !important;
+    color: #6b7280 !important;
+    text-align: center !important;
+}
+
+
+/* =========================================
+   SEND BUTTON CONTENT
+========================================= */
+
+.send-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+.send-button-icon {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   TEMPLATE API ERROR
+========================================= */
+
+.template-error {
+    margin-top: 9px;
+    padding: 10px 12px;
+    background: #fff1f2;
+    color: #b42318;
+    border: 1px solid #fecdd3;
+    border-radius: 7px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   FORM FIX
+========================================= */
+
+form.main-layout {
+    width: 100%;
+    margin: 0;
+}
+
+/* =========================================
+   NAVBAR CUSTOMER REPORT BUTTON
+========================================= */
+
+.navbar-report-button {
+    padding: 11px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #25d366;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.navbar-report-button:hover {
+    background: #1fbe5a;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 13px rgba(0, 0, 0, 0.16);
+}
+
+.report-button-icon {
+    font-size: 17px;
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .navbar-report-button {
+        width: 100%;
+    }
+
+}
+/* =========================================
+   TEMPLATE PARAMETER FIELDS
+========================================= */
+
+.template-parameter-section {
+    margin: 18px 0;
+    padding: 16px;
+    background: #f8fbf9;
+    border: 1px solid #dce7e2;
+    border-radius: 10px;
+}
+
+.parameter-heading {
+    margin-bottom: 14px;
+}
+
+.parameter-heading h3 {
+    margin-bottom: 4px;
+    color: #075e54;
+    font-size: 15px;
+}
+
+.parameter-heading p {
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.template-parameter-group {
+    margin-bottom: 14px;
+    padding: 13px;
+    background: #ffffff;
+    border: 1px solid #e3e9e6;
+    border-radius: 9px;
+}
+
+.template-parameter-group:last-child {
+    margin-bottom: 0;
+}
+
+.template-parameter-group h4 {
+    margin-bottom: 11px;
+    color: #075e54;
+    font-size: 13px;
+}
+
+.template-parameter-field {
+    margin-bottom: 11px;
+}
+
+.template-parameter-field:last-child {
+    margin-bottom: 0;
+}
+
+.template-parameter-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.template-parameter-field input {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+}
+
+.template-parameter-field input:focus {
+    border-color: #25d366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+/* =========================================
+   MEDIA FILE UPLOAD
+========================================= */
+
+.template-parameter-field input[type="file"] {
+    width: 100%;
+    min-height: 45px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #374151;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.template-parameter-field input[type="file"]:focus {
+    border-color: #25d366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+    outline: none;
+}
+
+.template-parameter-field input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    background: #075e54;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.template-parameter-field input[type="file"]::file-selector-button:hover {
+    background: #064f47;
+}
+
+.media-file-help {
+    display: block;
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 10px;
+    line-height: 1.4;
+}
+/* =========================================
+   VIDEO AND DOCUMENT FILE UPLOAD
+========================================= */
+
+.media-upload-field {
+    margin-top: 12px;
+}
+
+.template-parameter-field input[type="file"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.template-parameter-field input[type="file"]:focus {
+    border-color: #25d366;
+    box-shadow:
+        0 0 0 3px rgba(37, 211, 102, 0.12);
+    outline: none;
+}
+
+.template-parameter-field
+input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 9px 13px;
+    background: #075e54;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.template-parameter-field
+input[type="file"]::file-selector-button:hover {
+    background: #064d46;
+}
+
+.selected-media-file {
+    display: block;
+    margin-top: 7px;
+    color: #1f2937;
+    font-size: 11px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.media-file-help {
+    display: block;
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   CLICKABLE HOME LOGO
+========================================= */
+
+.home-logo-link {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.home-logo-link:hover {
+    color: #ffffff;
+    transform: scale(1.06);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.home-logo-link:active {
+    transform: scale(0.96);
+}
+
+.home-logo-link:visited {
+    color: #ffffff;
+}
+
+/* =========================================
+   FINAL CUSTOMER SEARCH TOOLBAR DESIGN
+========================================= */
+
+.customer-filter-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 185px !important;
+    align-items: center !important;
+    gap: 12px !important;
+
+    width: 100% !important;
+    padding: 18px !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================
+   SEARCH INPUT
+========================================= */
+
+.customer-search-input {
+    display: block !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 45px !important;
+
+    margin: 0 !important;
+    padding: 0 14px !important;
+
+    background: #ffffff !important;
+    color: #1f2937 !important;
+
+    border: 1px solid #cbd5d1 !important;
+    border-radius: 10px !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+
+    outline: none !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+.customer-search-input::placeholder {
+    color: #7b8681 !important;
+    opacity: 1 !important;
+}
+
+.customer-search-input:hover {
+    border-color: #9ca9a4 !important;
+}
+
+.customer-search-input:focus {
+    border-color: #25d366 !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 211, 102, 0.14) !important;
+}
+
+
+/* Search input ka browser cancel icon */
+
+.customer-search-input::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+
+/* =========================================
+   SELECT CONTACTS DROPDOWN
+========================================= */
+
+.select-contact-menu {
+    position: relative !important;
+
+    display: block !important;
+
+    width: 185px !important;
+    min-width: 185px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* Select Contacts visible button */
+
+.select-contact-button {
+    display: flex !important;
+
+    width: 100% !important;
+    height: 45px !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+
+    margin: 0 !important;
+    padding: 0 14px !important;
+
+    background: #ffffff !important;
+    color: #075e54 !important;
+
+    border: 1px solid #cbd5d1 !important;
+    border-radius: 10px !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    list-style: none !important;
+    cursor: pointer !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Default details arrow hide */
+
+.select-contact-button::-webkit-details-marker {
+    display: none !important;
+}
+
+.select-contact-button::marker {
+    display: none !important;
+    content: "" !important;
+}
+
+.select-contact-button:hover {
+    border-color: #25d366 !important;
+}
+
+.select-contact-menu[open]
+.select-contact-button {
+    border-color: #25d366 !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 211, 102, 0.14) !important;
+}
+
+
+/* Dropdown arrow */
+
+.select-arrow {
+    color: #007a68 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+}
+
+
+/* =========================================
+   DROPDOWN OPTIONS
+========================================= */
+
+.select-contact-options {
+    position: absolute !important;
+    z-index: 100 !important;
+
+    top: calc(100% + 7px) !important;
+    right: 0 !important;
+
+    display: block !important;
+    overflow: hidden !important;
+
+    width: 100% !important;
+    min-width: 185px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #d7dedb !important;
+    border-radius: 9px !important;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.14) !important;
+}
+
+.select-option {
+    display: flex !important;
+
+    align-items: center !important;
+    gap: 9px !important;
+
+    width: 100% !important;
+    padding: 11px 13px !important;
+
+    background: #ffffff !important;
+    color: #34434b !important;
+
+    border-bottom: 1px solid #edf0ef !important;
+
+    font-size: 12px !important;
+    cursor: pointer !important;
+
+    box-sizing: border-box !important;
+}
+
+.select-option:last-child {
+    border-bottom: none !important;
+}
+
+.select-option:hover {
+    background: #effbf4 !important;
+    color: #075e54 !important;
+}
+
+.select-option input[type="radio"] {
+    width: 15px !important;
+    height: 15px !important;
+
+    margin: 0 !important;
+
+    accent-color: #25d366 !important;
+    cursor: pointer !important;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .customer-filter-row {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        padding: 14px !important;
+    }
+
+    .select-contact-menu {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .select-contact-options {
+        left: 0 !important;
+        right: auto !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
+
+.customer-excel-upload-form {
+    margin-bottom: 20px;
+}
+
+.excel-upload-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 18px;
+    border: 1px solid #d9e2dd;
+    border-radius: 12px;
+    background: #f8fbf9;
+}
+
+.excel-upload-box label {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #075e54;
+    margin-bottom: 4px;
+}
+
+.excel-upload-box p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.excel-upload-box input[type="file"] {
+    flex: 1;
+    min-width: 220px;
+}
+
+.excel-upload-box button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 18px;
+    background: #075e54;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.excel-upload-box button:hover {
+    background: #064e46;
+}

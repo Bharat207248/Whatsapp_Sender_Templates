@@ -1,0 +1,287 @@
+{% load static %}
+{% load auth_extras %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WhatsApp Message Inbox</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/customers.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/chat.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <a
+    href="{% url 'message_inbox' %}"
+    class="logo home-logo-link"
+    title="Go to Home"
+    aria-label="Go to Home Page"
+>
+    W
+</a>
+
+            <div>
+
+                <h1>
+                    Message Inbox
+                </h1>
+
+                <p>
+                    Customer WhatsApp Conversations
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-navbar-actions">
+
+         {% if request.user|has_group:"WhatsApp Sender" %}
+    <a
+        href="{% url 'home' %}"
+        class="chat-navigation-button"
+    >
+        Home Page
+    </a>
+{% endif %}
+         {% if request.user|has_group:"Customer Report" %}
+    <a
+        href="{% url 'customer_report' %}"
+        class="chat-navigation-button"
+    >
+        Customer Report
+    </a>
+{% endif %}
+<!-- {% include "messaging/_user_menu.html" %} -->
+        </div>
+
+    </nav>
+
+
+    <main class="inbox-page">
+
+        <section class="inbox-heading">
+
+            <div>
+
+                <span class="inbox-kicker">
+                    WhatsApp Conversations
+                </span>
+
+                <h2>
+                    Customer Message Inbox
+                </h2>
+
+                <p>
+Select a customer, open the conversation, and send a reply.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="inbox-card">
+
+            <div class="inbox-search-wrapper">
+
+                <input
+                    type="search"
+                    id="customer-chat-search"
+                    placeholder="Search customer name or phone..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div
+                class="inbox-customer-list"
+                id="inbox-customer-list"
+            >
+
+                {% for item in inbox_items %}
+
+                    <a
+                        href="{% url 'customer_chat' item.customer.id %}"
+                        class="inbox-customer-item"
+                        data-search-value="
+                            {{ item.customer.name|lower }}
+                            {{ item.customer.phone }}
+                        "
+                    >
+
+                        <span class="inbox-avatar">
+
+                            {{ item.customer.name|slice:":1"|upper }}
+
+                        </span>
+
+
+                        <div class="inbox-customer-details">
+
+                            <div class="inbox-customer-top">
+
+                                <strong>
+                                    {{ item.customer.name }}
+                                </strong>
+
+                                <small>
+
+                                    {% if item.latest_message_time %}
+
+                                        {{ item.latest_message_time|localtime|date:"d M, h:i A" }}
+
+                                    {% endif %}
+
+                                </small>
+
+                            </div>
+
+
+                            <div class="inbox-customer-bottom">
+
+                                <p>
+
+                                    {% if item.latest_direction == "outgoing" %}
+
+                                        <span class="outgoing-prefix">
+                                            You:
+                                        </span>
+
+                                    {% endif %}
+
+                                    {{ item.latest_message_text|truncatechars:70 }}
+
+                                </p>
+
+
+                                {% if item.reply_window_open %}
+
+                                    <span class="window-dot open"></span>
+
+                                {% else %}
+
+                                    <span class="window-dot closed"></span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <small class="inbox-phone">
+
+                                {{ item.customer.phone }}
+
+                            </small>
+
+                        </div>
+
+                    </a>
+
+                {% empty %}
+
+                    <div class="empty-inbox">
+
+                        <div class="empty-inbox-icon">
+                            💬
+                        </div>
+
+                        <strong>
+                            No customer conversation is available right now..
+                        </strong>
+
+                        <p>
+                          When the customer replies on WhatsApp,
+                            the conversation will appear here.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const customerSearchInput =
+            document.getElementById(
+                "customer-chat-search"
+            );
+
+        const customerItems =
+            document.querySelectorAll(
+                ".inbox-customer-item"
+            );
+
+
+        if (customerSearchInput) {
+
+            customerSearchInput.addEventListener(
+                "input",
+                function () {
+
+                    const searchValue = (
+                        customerSearchInput.value
+                    ).trim().toLowerCase();
+
+
+                    customerItems.forEach(
+                        function (item) {
+
+                            const itemValue = (
+                                item.dataset.searchValue
+                                || ""
+                            ).toLowerCase();
+
+
+                            item.style.display = (
+                                itemValue.includes(
+                                    searchValue
+                                )
+                                ? "flex"
+                                : "none"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

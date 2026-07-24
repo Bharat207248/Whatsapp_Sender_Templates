@@ -1,0 +1,761 @@
+{% load static %}
+{% load auth_extras %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WhatsApp Sender</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/customers.css' %}"
+    >
+    <link
+    rel="stylesheet"
+    href="{% static 'myapp/css/auth.css' %}?v=3"
+>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+<nav class="navbar">
+
+    <div class="brand">
+
+      <a
+    href="{% url 'home' %}"
+    class="logo home-logo-link"
+    title="Go to Home"
+    aria-label="Go to Home Page"
+>
+    W
+</a>
+
+        <div>
+            <h1>
+                WhatsApp Message Sender
+            </h1>
+
+            <p>
+                Sea News Communication Panel
+            </p>
+        </div>
+
+    </div>
+
+
+{% if request.user|has_group:"Customer Report" %}
+
+    <a
+        href="{% url 'customer_report' %}"
+        class="navbar-report-button"
+    >
+        <span class="report-button-icon">
+            ▦
+        </span>
+
+        <span>
+            Customers Report
+        </span>
+    </a>
+    {% endif %}
+
+{% if request.user|has_group:"Customer Report" %}
+
+    <a
+        href="{% url 'message_inbox' %}"
+        class="navbar-report-button"
+    >
+        Message Inbox
+    </a>
+
+{% endif %}
+
+{% include "messaging/_user_menu.html" %}
+</nav>
+
+<!-- {% if messages %}
+    <div class="django-messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %} -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="container">
+
+        <div class="page-heading">
+
+            <h2>
+                Send WhatsApp Template
+            </h2>
+
+            <p>
+               Open customer contacts, select the required mobile numbers, and choose an approved template.
+
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             DJANGO SUCCESS / ERROR MESSAGE
+        ========================== -->
+
+        {% if messages %}
+
+            <div class="django-messages">
+
+                {% for message in messages %}
+
+                    <div class="django-message {{ message.tags }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+
+<form
+    method="post"
+    action="{% url 'import_customers_excel' %}"
+    enctype="multipart/form-data"
+    class="customer-excel-upload-form"
+>
+    {% csrf_token %}
+
+    <div class="excel-upload-box">
+        <div>
+            <label for="customer-excel-file">
+                Import Customers from Excel
+            </label>
+
+            <p>
+                Upload an .xlsx file containing
+                Name, Phone, City and Pin Code.
+            </p>
+        </div>
+
+        <input
+            type="file"
+            id="customer-excel-file"
+            name="excel_file"
+            accept=".xlsx"
+            required
+        >
+
+        <button type="submit">
+            Upload and Import
+        </button>
+    </div>
+</form>
+
+
+
+        <!-- =========================
+             SEND WHATSAPP FORM
+        ========================== -->
+<form
+    method="POST"
+    action="{% url 'send_whatsapp' %}"
+    enctype="multipart/form-data"
+    class="main-layout"
+    id="whatsapp-send-form"
+>
+
+            <!-- Django POST request security token -->
+
+            {% csrf_token %}
+
+
+            <!-- =========================
+                 CUSTOMER SELECTION PANEL
+            ========================== -->
+
+            
+
+
+
+            <section class="panel customer-panel">
+
+                <h2 class="panel-title">
+                    Customer Selection
+                </h2>
+
+
+                <details class="contacts-box">
+
+                    <summary class="contacts-summary">
+
+                        <div class="contact-summary-left">
+
+                            <div class="contact-icon">
+                                ☎
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Customer Contacts
+                                </h3>
+
+                                <p>
+                                   
+                                        Click to view customer details.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="arrow">
+                            ⌄
+                        </span>
+
+                    </summary>
+
+
+                    <div class="contacts-content">
+
+
+                        <!-- Search and selection toolbar -->
+
+                        <div class="customer-filter-row">
+
+    <input
+        type="search"
+        id="customer-search-input"
+        class="customer-search-input"
+        placeholder="Search number, name, city or PIN code"
+        autocomplete="off"
+        enterkeyhint="search"
+    >
+
+
+                            <details class="select-contact-menu">
+
+                                <summary class="select-contact-button">
+
+                                    <span>
+                                        Select Contacts
+                                    </span>
+
+                                    <span class="select-arrow">
+                                        ⌄
+                                    </span>
+
+                                </summary>
+
+
+                                <div class="select-contact-options">
+
+                                    <label class="select-option">
+
+                                        <input
+                                            type="radio"
+                                            name="contact-selection"
+                                            value="all"
+                                        >
+
+                                        <span>
+                                            All Select
+                                        </span>
+
+                                    </label>
+
+
+                                    <label class="select-option">
+
+                                        <input
+                                            type="radio"
+                                            name="contact-selection"
+                                            value="top-10"
+                                        >
+
+                                        <span>
+                                            Top 10 Select
+                                        </span>
+
+                                    </label>
+
+
+                                    <label class="select-option">
+
+                                        <input
+                                            type="radio"
+                                            name="contact-selection"
+                                            value="bottom-10"
+                                        >
+
+                                        <span>
+                                            Bottom 10 Select
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </details>
+
+                        </div>
+
+
+                        <!-- Customer table -->
+
+                        <div class="customer-table-wrapper">
+
+                            <table class="customer-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th class="checkbox-column">
+                                            Select
+                                        </th>
+
+                                        <th>
+                                            Customer Number
+                                        </th>
+
+                                        <th>
+                                            Customer Name
+                                        </th>
+
+                                        <th>
+                                            City
+                                        </th>
+
+                                        <th>
+                                            PIN Code
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="customer-table-body">
+
+    {% for customer in customers %}
+
+        <tr
+            class="customer-search-row"
+            data-customer-search="
+                {{ customer.phone }}
+                {{ customer.name }}
+                {{ customer.city }}
+                {{ customer.pin_code }}
+            "
+        >
+
+            <!-- Select checkbox -->
+
+            <td>
+
+                <input
+                    type="checkbox"
+                    id="customer-{{ customer.id }}"
+                    name="customers"
+                    value="{{ customer.id }}"
+                    class="customer-checkbox"
+                >
+
+            </td>
+
+
+            <!-- Mobile number -->
+
+            <td>
+
+                <label
+                    for="customer-{{ customer.id }}"
+                    class="customer-number-label"
+                >
+                    {{ customer.phone }}
+                </label>
+
+            </td>
+
+
+            <!-- Customer name -->
+
+            <td>
+                {{ customer.name }}
+            </td>
+
+
+            <!-- City -->
+
+            <td>
+                {{ customer.city }}
+            </td>
+
+
+            <!-- PIN Code -->
+
+            <td>
+                {{ customer.pin_code }}
+            </td>
+
+        </tr>
+        
+
+    {% endfor %}
+
+<tr
+    id="customer-no-result-row"
+    style="display: none;"
+>
+    <td
+        colspan="5"
+        class="customer-no-result-message"
+    >
+        No matching customer found.
+    </td>
+</tr>
+   
+
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <!-- Selected customer count -->
+
+                        <div class="selected-summary">
+
+                            <span>
+                                Selected customers
+                            </span>
+
+                            <strong id="selected-customer-count">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </details>
+
+            </section>
+
+
+            <!-- =========================
+                 MESSAGE TEMPLATE PANEL
+            ========================== -->
+
+            <section class="panel">
+
+                <h2 class="panel-title">
+                    Message Template
+                </h2>
+
+
+                <!-- Approved templates -->
+
+                <div class="form-group">
+
+                    <label for="template">
+                        Approved Template
+                    </label>
+
+                    <select
+                        id="template"
+                        name="template"
+                        class="form-control"
+                        required
+                    >
+
+                        <option value="">
+                            Select approved template
+                        </option>
+
+
+                        {% for template in approved_templates %}
+
+                            <option
+                                value="{{ template.name }}|{{ template.language }}"
+                                data-template-key="{{ template.name }}||{{ template.language }}"
+                                data-language="{{ template.language }}"
+                                data-category="{{ template.category }}"
+                            >
+
+                                {{ template.name }}
+                                — {{ template.language }}
+                                — {{ template.category }}
+
+                            </option>
+
+                        {% empty %}
+
+                            <option
+                                value=""
+                                disabled
+                            >
+                                No approved template found
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    {% if template_error %}
+
+                        <p class="template-error">
+
+                            {{ template_error }}
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!--
+                    Approved template ka complete JSON data.
+                    templates.js isi data ko read karegi.
+                -->
+
+                {{ approved_templates|json_script:"approved-templates-data" }}
+
+
+                <!-- Language and Category -->
+
+                <div class="template-info">
+
+                    <div class="info-box">
+
+                        <span>
+                            Language
+                        </span>
+
+                        <strong id="template-language">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span>
+                            Category
+                        </span>
+
+                        <strong id="template-category">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="preview-heading">
+                    Template Preview
+                </div>
+
+
+                <!-- =========================
+                     DYNAMIC TEMPLATE PREVIEW
+                ========================== -->
+
+                <div class="whatsapp-preview">
+
+
+                    <!-- Template select nahi hui -->
+
+                    <div
+                        id="empty-template-preview"
+                        class="empty-template-preview"
+                    >
+                        Select an approved template to view the preview.
+                    </div>
+
+
+                    <!-- Selected template preview -->
+
+                    <div
+                        id="selected-template-preview"
+                        class="selected-template-preview"
+                        hidden
+                    >
+
+                        <div class="preview-template-meta">
+
+                            <span id="preview-template-name">
+                                Template Name
+                            </span>
+
+                        </div>
+
+
+                        <div class="message-bubble">
+
+
+                            <!-- Media header placeholder -->
+
+                            <div
+                                id="template-media-placeholder"
+                                class="image-placeholder"
+                                hidden
+                            >
+                                Template Header
+                            </div>
+
+
+                            <!-- Header image -->
+
+                            <img
+                                id="template-header-image"
+                                class="template-header-image"
+                                src=""
+                                alt="Template Header Image"
+                                hidden
+                            >
+
+
+                            <!-- Text header -->
+
+                            <h4
+                                id="template-header-text"
+                                hidden
+                            ></h4>
+
+
+                            <!-- Template body -->
+
+                            <p id="template-body-text">
+                                Template body
+                            </p>
+
+
+                            <!-- Template footer -->
+
+                            <p
+                                id="template-footer-text"
+                                class="template-footer-text"
+                                hidden
+                            ></p>
+
+
+                            <div class="message-time">
+                                Preview ✓✓
+                            </div>
+
+                        </div>
+
+
+                        <!-- Template buttons -->
+
+                        <div
+                            id="template-buttons"
+                            class="template-buttons"
+                            hidden
+                        ></div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================================
+     DYNAMIC TEMPLATE VALUES
+====================================== -->
+
+<div
+    id="template-parameter-section"
+    class="template-parameter-section"
+    hidden
+>
+    <div class="parameter-heading">
+
+        <h3>
+            Template Values
+        </h3>
+
+        <p>
+            Fill in the variables and media details for the selected template.
+        </p>
+
+    </div>
+
+    <div id="template-parameter-fields"></div>
+
+</div>
+                <!-- =========================
+                     SEND BUTTON
+                ========================== -->
+
+                <button
+                    type="submit"
+                    class="send-button"
+                    id="send-whatsapp-button"
+                >
+
+                    <span class="send-button-icon">
+                        ➤
+                    </span>
+
+                    <span>
+                        Send WhatsApp Message
+                    </span>
+
+                </button>
+
+
+                <p class="note">
+
+                   Send the selected template on WhatsApp. 
+
+                </p>
+
+            </section>
+
+        </form>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT FILES
+    ========================== -->
+
+ <script
+    src="{% static 'myapp/js/customers.js' %}?v=25"
+></script>
+
+    <script src="{% static 'myapp/js/templates.js' %}"></script>
+  <script src="{% static 'myapp/js/template_parameters.js' %}"></script>
+
+</body>
+
+</html>

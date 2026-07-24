@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Access Denied | Sea News Network</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/auth.css' %}?v=20"
+    >
+</head>
+
+<body class="auth-body">
+
+    <main class="auth-shell">
+
+        <section class="auth-card">
+
+            <div class="auth-logo">
+                
+            </div>
+
+            <h1 class="auth-welcome">
+                ACCESS NOT ALLOWED
+            </h1>
+
+            <p class="auth-subtitle">
+                Your account does not have permission
+                to access this page.
+            </p>
+
+            <div class="auth-error-box">
+                Contact the Sea News administrator if
+                you believe you should have access.
+            </div>
+
+            <a
+                href="{% url 'role_redirect' %}"
+                class="auth-primary-button"
+                style="display:block; text-align:center; text-decoration:none;"
+            >
+                Go to My Page
+            </a>
+
+            <div class="auth-links">
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                >
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="auth-logout-button"
+                    >
+                        Logout
+                    </button>
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

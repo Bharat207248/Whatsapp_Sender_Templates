@@ -1,0 +1,458 @@
+{% load static %}
+{% load auth_extras %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Chat with {{ customer.name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/customers.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/chat.css' %}"
+    >
+
+</head>
+
+<body class="customer-chat-body">
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+           <a
+    href="{% url 'customer_chat' customer.id %}"
+    class="logo chat-refresh-logo"
+    title="Refresh Chat"
+    aria-label="Refresh Customer Chat"
+>
+    W
+</a>
+
+            <div>
+
+                <h1>
+                    Customer Chat
+                </h1>
+
+                <p>
+                    WhatsApp Reply Panel
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-navbar-actions">
+
+            <!-- <a
+                href="{% url 'message_inbox' %}"
+                class="chat-navigation-button"
+            >
+                ← Message Inbox
+            </a> -->
+
+       {% if request.user|has_group:"Customer Report" %}
+
+    <a
+        href="{% url 'customer_report' %}"
+        class="chat-navigation-button"
+    >
+        Customer Report
+    </a>
+
+    <a
+        href="{% url 'message_inbox' %}"
+        class="chat-navigation-button"
+    >
+        Message Inbox
+    </a>
+
+{% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <main class="customer-chat-page">
+
+        <section class="chat-panel">
+
+            <!-- =========================
+                 CHAT HEADER
+            ========================== -->
+
+            <header class="chat-panel-header">
+
+                <div class="chat-customer-profile">
+
+                    <span class="chat-profile-avatar">
+
+                        {{ customer.name|slice:":1"|upper }}
+
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            {{ customer.name }}
+                        </h2>
+
+                        <p>
+                            {{ customer.phone }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if reply_window_open %}
+
+                    <div class="reply-window-status open">
+
+                        <span></span>
+
+                        <div>
+
+                            <strong>
+                                Reply window open
+                            </strong>
+
+                            <small>
+                                {{ reply_window_text }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="reply-window-status closed">
+
+                        <span></span>
+
+                        <div>
+
+                            <strong>
+                                Reply window closed
+                            </strong>
+
+                            <small>
+                                Approved template required
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </header>
+
+
+            <!-- =========================
+                 ERROR MESSAGE
+            ========================== -->
+
+            <div
+                id="chat-error-message"
+                class="chat-error-message"
+                hidden
+            ></div>
+
+
+            <!-- =========================
+                 CHAT MESSAGES
+            ========================== -->
+
+            <div
+                class="chat-messages"
+                id="chat-messages"
+            >
+
+                {% for item in conversation %}
+
+                    {% if item.direction == "incoming" %}
+
+                        <div
+                            class="chat-message-row incoming"
+                            data-message-id="{{ item.db_id }}"
+                        >
+
+                            <div class="chat-message-bubble incoming">
+
+                                <p class="message-text">
+
+                                    {{ item.text|linebreaksbr }}
+
+                                </p>
+
+
+                                <div class="message-footer">
+
+                                    <span>
+
+                                        {{ item.created_at|localtime|date:"d M, h:i A" }}
+
+                                    </span>
+
+
+                                    <button
+                                        type="button"
+                                        class="reply-to-message-button"
+                                        data-reply-id="{{ item.db_id }}"
+                                    >
+                                        Reply
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="chat-message-row outgoing">
+
+                            <div class="chat-message-bubble outgoing">
+
+                                {% if item.reply_to_text %}
+
+                                    <div class="quoted-message">
+
+                                        <span>
+                                            Replying to
+                                        </span>
+
+                                        <p>
+                                            {{ item.reply_to_text|truncatechars:100 }}
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <p class="message-text">
+
+                                    {{ item.text|linebreaksbr }}
+
+                                </p>
+
+
+                                <div class="message-footer">
+
+                                    <span>
+
+                                        {{ item.created_at|localtime|date:"d M, h:i A" }}
+
+                                    </span>
+
+
+                                    <span
+                                        class="
+                                            outgoing-status
+                                            status-{{ item.status }}
+                                        "
+                                    >
+
+                                        {% if item.status == "read" %}
+
+                                            ✓✓ Read
+
+                                        {% elif item.status == "delivered" %}
+
+                                            ✓✓ Delivered
+
+                                        {% elif item.status == "sent" %}
+
+                                            ✓ Sent
+
+                                        {% elif item.status == "failed" %}
+
+                                            ! Failed
+
+                                        {% elif item.status == "accepted" %}
+
+                                            ◷ Accepted
+
+                                        {% else %}
+
+                                            ◷ Pending
+
+                                        {% endif %}
+
+                                    </span>
+
+                                </div>
+
+
+                                {% if item.error_message %}
+
+                                    <small class="outgoing-error">
+
+                                        {{ item.error_message }}
+
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                {% empty %}
+
+                    <div class="empty-chat-message">
+
+                        Is customer ke saath abhi
+                        conversation available nahi hai.
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =========================
+                 REPLY FORM
+            ========================== -->
+
+            <footer class="chat-reply-footer">
+
+                <div
+                    class="replying-to-preview"
+                    id="replying-to-preview"
+                    hidden
+                >
+
+                    <div>
+
+                        <span>
+                            Replying to customer
+                        </span>
+
+                        <p id="replying-to-text"></p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="cancel-reply-button"
+                        aria-label="Cancel reply"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'send_customer_reply' customer.id %}"
+                    id="customer-reply-form"
+                    class="customer-reply-form"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="reply_to_id"
+                        id="reply-to-id"
+                        value=""
+                    >
+
+
+                    <textarea
+                        name="reply_text"
+                        id="reply-text-input"
+                        rows="2"
+                        maxlength="4096"
+                        placeholder="
+                            {% if reply_window_open %}
+                                Type your WhatsApp reply...
+                            {% else %}
+                                Reply window closed. Send approved template.
+                            {% endif %}
+                        "
+                        {% if not reply_window_open %}
+                            disabled
+                        {% endif %}
+                        required
+                    ></textarea>
+
+
+                    <button
+                        type="submit"
+                        id="send-reply-button"
+                        {% if not reply_window_open %}
+                            disabled
+                        {% endif %}
+                    >
+
+                        <span class="send-button-text">
+                            Send
+                        </span>
+
+                        <span
+                            class="send-button-loader"
+                            hidden
+                        >
+                            Sending...
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                {% if not reply_window_open %}
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="send-template-instead-button"
+                    >
+                        Send Approved Template
+                    </a>
+
+                {% endif %}
+
+            </footer>
+
+        </section>
+
+    </main>
+
+
+    <script
+        src="{% static 'myapp/js/chat.js' %}"
+    ></script>
+
+</body>
+
+</html>

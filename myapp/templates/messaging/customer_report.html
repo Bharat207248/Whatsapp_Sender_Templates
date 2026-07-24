@@ -1,0 +1,844 @@
+{% load static %}
+{% load auth_extras %}
+{% load tz %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Reports</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'myapp/css/customers.css' %}"
+    >
+
+  {% load static %}
+<link
+    rel="stylesheet"
+    href="{% static 'myapp/css/report.css' %}?v=22"
+>
+ <link
+    rel="stylesheet"
+    href="{% static 'myapp/css/auth.css' %}?v=3"
+>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <a
+    href="{% url 'customer_report' %}"
+    class="logo home-logo-link"
+    title="Go to Home"
+    aria-label="Go to Home Page"
+>
+    W
+</a>
+
+            <div>
+
+                <h1>
+                    Customer Reports
+                </h1>
+{% if request.user|has_group:"Customer Report" %}
+    <a
+        href="{% url 'message_inbox' %}"
+        class="report-navigation-button"
+    >
+        Message Inbox
+    </a>
+{% endif %}
+                <p>
+                    WhatsApp Message Delivery Report
+                </p>
+
+            </div>
+
+        </div>
+
+
+     {% if request.user|has_group:"WhatsApp Sender" %}
+
+    <a
+        href="{% url 'home' %}"
+        class="report-navigation-button"
+    >
+        << Home Page
+    
+    </a>
+
+{% endif %}
+{% include "messaging/_user_menu.html" %} 
+    </nav>
+
+
+    <!-- =========================
+         REPORT MAIN CONTENT
+    ========================== -->
+
+    <main class="report-container">
+
+        <div class="report-page-heading">
+
+            <div>
+
+                <span class="report-kicker">
+                    Campaign Activity
+                </span>
+
+                <h2>
+                    WhatsApp Customer Message Report
+                </h2>
+
+                <p>
+                    Details of sent messages and their latest statuses.
+                </p>
+
+            </div>
+
+
+            <div class="report-total-label">
+
+                <span>
+                    Total Records
+                </span>
+
+                <strong>
+                    {{ total_count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CLICKABLE SUMMARY CARDS
+        ========================== -->
+
+        <section class="report-stats">
+
+
+            <!-- Total Messages -->
+
+            <a
+                href="{% url 'customer_report' %}"
+                class="
+                    report-stat-card
+                    total-card
+                    {% if active_filter == 'all' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    👥
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Messages
+                    </span>
+
+                    <strong>
+                        {{ total_count }}
+                    </strong>
+
+                    <small>
+                        All message records
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Accepted -->
+
+            <a
+                href="{% url 'customer_report' %}?status=accepted"
+                class="
+                    report-stat-card
+                    accepted-card
+                    {% if active_filter == 'accepted' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Accepted
+                    </span>
+
+                    <strong>
+                        {{ accepted_count }}
+                    </strong>
+
+                    <small>
+                        Accepted by Meta API
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Sent -->
+
+            <a
+                href="{% url 'customer_report' %}?status=sent"
+                class="
+                    report-stat-card
+                    sent-card
+                    {% if active_filter == 'sent' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    ➤
+                </div>
+
+                <div>
+
+                    <span>
+                        Sent
+                    </span>
+
+                    <strong>
+                        {{ sent_count }}
+                    </strong>
+
+                    <small>
+                        Sent to customer
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Delivered -->
+
+            <a
+                href="{% url 'customer_report' %}?status=delivered"
+                class="
+                    report-stat-card
+                    delivered-card
+                    {% if active_filter == 'delivered' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    ✓✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Delivered
+                    </span>
+
+                    <strong>
+                        {{ delivered_count }}
+                    </strong>
+
+                    <small>
+                        Delivered successfully
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Read -->
+
+            <a
+                href="{% url 'customer_report' %}?status=read"
+                class="
+                    report-stat-card
+                    read-card
+                    {% if active_filter == 'read' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <span>
+                        Read
+                    </span>
+
+                    <strong>
+                        {{ read_count }}
+                    </strong>
+
+                    <small>
+                        Opened by customer
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Failed -->
+
+            <a
+                href="{% url 'customer_report' %}?status=failed"
+                class="
+                    report-stat-card
+                    failed-card
+                    {% if active_filter == 'failed' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        Failed
+                    </span>
+
+                    <strong>
+                        {{ failed_count }}
+                    </strong>
+
+                    <small>
+                        Failed messages
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- Reply -->
+
+            <a
+                href="{% url 'customer_report' %}?status=reply"
+                class="
+                    report-stat-card
+                    reply-card
+                    {% if active_filter == 'reply' %}
+                        active-filter
+                    {% endif %}
+                "
+            >
+
+                <div class="report-stat-icon">
+                    ↩
+                </div>
+
+                <div>
+
+                    <span>
+                        Reply
+                    </span>
+
+                    <strong>
+                        {{ reply_count }}
+                    </strong>
+
+                    <small>
+                        Customers replied
+                    </small>
+
+                </div>
+
+            </a>
+
+        </section>
+
+
+        <!-- =========================
+             CUSTOMER REPORT TABLE
+        ========================== -->
+
+        <section class="report-table-card">
+
+           <div class="report-table-heading">
+
+    <!-- LEFT SIDE -->
+
+    <div class="report-table-title">
+        <h3>Customer-wise Message Status</h3>
+
+        <p>
+            {% if search_query %}
+                <strong>{{ filtered_count }}</strong>
+                record{{ filtered_count|pluralize }} found for
+                <strong>"{{ search_query }}"</strong>
+            {% else %}
+                Records of messages sent to every customer.
+            {% endif %}
+        </p>
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <form
+        method="get"
+        action="{% url 'customer_report' %}"
+        class="report-search-form"
+    >
+
+        {% if active_filter != "all" %}
+            <input
+                type="hidden"
+                name="status"
+                value="{{ active_filter }}"
+            >
+        {% endif %}
+
+        <div class="report-search-box">
+
+            <span class="report-search-icon">
+                🔍
+            </span>
+
+            <input
+                type="search"
+                name="q"
+                value="{{ search_query }}"
+                class="report-search-input"
+                placeholder="Search name or mobile number"
+                autocomplete="off"
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="report-search-button"
+        >
+            Search
+        </button>
+
+        {% if search_query %}
+            <a
+                href="{% url 'customer_report' %}"
+                class="report-search-clear"
+            >
+                Clear
+            </a>
+        {% endif %}
+
+    </form>
+
+</div>
+
+            </div>
+
+
+            <div class="report-table-wrapper">
+
+                <table class="report-table">
+
+                    <!-- =========================
+                         TABLE HEAD
+                    ========================== -->
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Mobile Number
+                            </th>
+
+                            <th>
+                                Template
+                            </th>
+
+                            <th>
+                                Language
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Message ID
+                            </th>
+
+                            <th>
+                                Sent Time
+                            </th>
+
+                            <th>
+                                Customer Reply
+                            </th>
+
+                            <th>
+                                Error
+                            </th>
+                            <th>
+                                      Action
+                                    </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- =========================
+                         TABLE BODY
+                    ========================== -->
+
+                    <tbody>
+
+                        {% for log in message_logs %}
+
+                            <tr>
+
+
+                                <!-- Customer -->
+
+                                <td>
+
+                                    <div class="report-customer-cell">
+
+                                        <span class="report-avatar">
+
+                                            {{ log.customer.name|slice:":1"|upper }}
+
+                                        </span>
+
+                                        <div>
+
+                                            <strong>
+                                                {{ log.customer.name }}
+                                            </strong>
+
+                                            <small>
+                                                {{ log.customer.city }}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Mobile Number -->
+
+                                <td class="report-phone">
+
+                                    {{ log.customer.phone }}
+
+                                </td>
+
+
+                                <!-- Template -->
+
+                                <td>
+
+                                    <span class="template-name">
+
+                                        {{ log.template_name }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Language -->
+
+                                <td>
+
+                                    {{ log.template_language }}
+
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span
+                                        class="message-status status-{{ log.status }}"
+                                    >
+
+                                        {{ log.get_status_display }}
+                                            
+                                    </span>
+                                     {% if log.sent_at %}
+
+                                      
+
+                                        <small>
+                                            {{ log.sent_at|date:"h:i A" }}
+                                        </small>
+
+                                    {% else %}
+
+                                     
+
+                                        <small>
+                                            {{ log.created_at|date:"h:i A" }}
+                                        </small>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Meta Message ID -->
+
+                                <td>
+
+                                    {% if log.meta_message_id %}
+
+                                        <span
+                                            class="meta-message-id"
+                                            title="{{ log.meta_message_id }}"
+                                        >
+
+                                            {{ log.meta_message_id|truncatechars:22 }}
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="empty-value">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Sent Time -->
+
+                                <td class="report-date">
+
+                                    {% if log.sent_at %}
+
+                                        {{ log.sent_at|date:"d M Y" }}
+
+                                        <small>
+                                            {{ log.sent_at|date:"h:i A" }}
+                                        </small>
+
+                                    {% else %}
+
+                                        {{ log.created_at|date:"d M Y" }}
+
+                                        <small>
+                                            {{ log.created_at|date:"h:i A" }}
+                                        </small>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Customer Reply -->
+
+                                <td>
+
+                                    {% with reply=log.reply_items.0 %}
+
+                                        {% if reply %}
+
+                                            <div class="customer-reply-value">
+
+                                                <strong>
+                                                    {{ reply.reply_text }}
+                                                </strong>
+
+                                                <small>
+
+                                                    {% if reply.received_at %}
+
+                                                        {{ reply.received_at|date:"d M Y, h:i A" }}
+
+                                                    {% else %}
+
+                                                        Time unavailable
+
+                                                    {% endif %}
+
+                                                </small>
+
+                                            </div>
+
+                                        {% else %}
+
+                                            <span class="empty-value">
+                                                No reply
+                                            </span>
+
+                                        {% endif %}
+
+                                    {% endwith %}
+
+                                </td>
+
+
+                                <!-- Error -->
+
+                                <td>
+                                     <a
+        href="{% url 'customer_chat' log.customer.id %}"
+        class="open-chat-button"
+    >
+        Open Chat
+    </a>
+
+                                    {% if log.error_message %}
+
+                                        <span
+                                            class="error-text"
+                                            title="{{ log.error_message }}"
+                                        >
+
+                                            {{ log.error_message|truncatechars:45 }}
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="no-error">
+                                            No error
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="10"
+                                    class="empty-report-message"
+                                >
+
+                                    <div class="empty-report-icon">
+                                        ▦
+                                    </div>
+
+                                    <strong>
+
+                                        {% if active_filter == "reply" %}
+
+                                            No rerply records available.
+
+                                        {% elif active_filter == "sent" %}
+
+                                            No sent  new records available.
+
+                                        {% elif active_filter == "delivered" %}
+
+                                            No delivered new records available.
+
+                                        {% elif active_filter == "read" %}
+
+                                            No read records available.
+
+                                        {% elif active_filter == "failed" %}
+
+                                            No failed records available.
+
+                                        {% elif active_filter == "accepted" %}
+
+                                            No accepted records available.
+
+                                        {% else %}
+
+                                            No message reports available.
+
+                                        {% endif %}
+
+                                    </strong>
+<!-- 
+                                    <p>
+                                        Message send karke ya webhook receive hone ke baad records show honge.
+                                    </p> -->
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="report-footer">
+
+                <!-- <span>
+                    Records newest message se oldest order me hain.
+                </span> -->
+
+                <!-- <span class="report-live-indicator">
+
+                    <i></i>
+
+                    MySQL Records
+
+                </span> -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

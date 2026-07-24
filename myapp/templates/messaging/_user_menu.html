@@ -1,0 +1,9 @@
+<div class="auth-user-menu">
+    <span class="auth-user-name">
+        {{ request.user.first_name|default:request.user.username }}
+    </span>
+    <form method="post" action="{% url 'logout' %}" class="auth-logout-form">
+        {% csrf_token %}
+        <button type="submit" class="auth-logout-button">Logout</button>
+    </form>
+</div>

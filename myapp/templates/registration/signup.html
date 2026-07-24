@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Sea News Network</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/auth.css' %}">
+</head>
+<body class="auth-body">
+    <main class="auth-shell1">
+        <section class="auth-card">
+            <!-- <div class="auth-logo">J</div> -->
+            <h1 class="auth-welcome">CREATE SEA NEWS ACCOUNT.</h1>
+            <p class="auth-subtitle">Create your account to access the communication panel.</p>
+
+            {% if form.non_field_errors %}
+                <div class="auth-error-box">
+                    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- <form method="post" action="{% url 'signup' %}"> -->
+                {% csrf_token %}
+
+                <div class="auth-two-column">
+                    <div class="auth-form-group">
+                        <label for="id_first_name">First name</label>
+                        {{ form.first_name }}
+                        {% for error in form.first_name.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="id_last_name">Last name</label>
+                        {{ form.last_name }}
+                        {% for error in form.last_name.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="id_username">Username</label>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                    {% if form.username.help_text %}<span class="auth-help-text">{{ form.username.help_text }}</span>{% endif %}
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="id_email">Email</label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="id_password1">Password</label>
+                    {{ form.password1 }}
+                    {% for error in form.password1.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                    {% if form.password1.help_text %}<span class="auth-help-text">{{ form.password1.help_text|safe }}</span>{% endif %}
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="id_password2">Confirm password</label>
+                    {{ form.password2 }}
+                    {% for error in form.password2.errors %}<div class="auth-field-errors">{{ error }}</div>{% endfor %}
+                </div>
+
+                <button type="submit" class="auth-primary-button">Create Account</button>
+            </form>
+
+            <div class="auth-links">
+                Already registered? <a href="{% url 'login' %}">Login</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
