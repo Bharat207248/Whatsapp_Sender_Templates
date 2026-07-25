@@ -30,7 +30,7 @@ load_dotenv(
 SECRET_KEY = 'django-insecure-0ck+x3+mix!mx*%+d2pzx!bz!vh&-w-p1ww#+^l$1lxp-26!!+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = [
 #     "127.0.0.1",
@@ -137,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 META_ACCESS_TOKEN = (
     os.getenv(
