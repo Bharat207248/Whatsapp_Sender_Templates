@@ -89,16 +89,20 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "whatsapp_sender_db",
-        "USER": "root",
-        "PASSWORD": "4462",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
-        "OPTIONS": {
-            "charset": "utf8mb4",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'defaultdb',  # Aapke screenshot se
+        'USER': 'avnadmin',   # Aapke screenshot se
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'), # Isse hum Cloady mein set karenge
+        'HOST': 'mysql-6e26f50-bharatoffice232-ae78.c.aivencloud.com', # Aapke screenshot se
+        'PORT': '15670', # Aapke screenshot se
+        'OPTIONS': {
+            'ssl': {
+                'ca': os.path.join(BASE_DIR, 'ca.pem'), # Root folder mein rakhi file
+            },
         },
     }
 }
