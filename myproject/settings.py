@@ -31,7 +31,19 @@ SECRET_KEY = 'django-insecure-0ck+x3+mix!mx*%+d2pzx!bz!vh&-w-p1ww#+^l$1lxp-26!!+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+# settings.py
+
+# 1. DEBUG ko environment se read karo
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+
+# 2. ALLOWED_HOSTS ko environment se read karo (comma se split karega)
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# 3. CSRF Trusted Origins (space se split karega)
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(' ')
+
+# 4. Proxy SSL Header (Yeh Cloady/Render jaise platforms ke liye zaroori hai)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # ALLOWED_HOSTS = [
 #     "127.0.0.1",
 #     "localhost",
